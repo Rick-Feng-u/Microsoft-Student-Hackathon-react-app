@@ -27,9 +27,12 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
+import Icon from 'react-native-vector-icons/FontAwesome';
+const myIcon = <Icon name="fire-extinguisher" size={30} color="#900" />;
+
 const Section: React.FC<{
   title: string;
-}> = ({children, title}) => {
+}> = ({ children, title }) => {
   const isDarkMode = useColorScheme() === 'dark';
   return (
     <View style={styles.sectionContainer}>
@@ -73,6 +76,12 @@ const App = () => {
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
+          <Section title="Did this icon work?">
+            <Text>{myIcon}</Text>
+          </Section>
+          <Section title="Step Zero">
+            Come up with a <Text style={styles.highlight}>good idea</Text> and collaborate with your team.
+          </Section>
           <Section title="Step One">
             Edit <Text style={styles.highlight}>App.tsx</Text> to change this
             screen and then come back to see your edits.

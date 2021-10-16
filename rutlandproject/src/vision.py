@@ -1,7 +1,10 @@
 from azure.cognitiveservices.vision.computervision import ComputerVisionClient
 from azure.cognitiveservices.vision.computervision.models import VisualFeatureTypes
 from msrest.authentication import CognitiveServicesCredentials
+from dotenv import load_dotenv
+import requests
 
+load_dotenv()  # take environment variables from .env.
 import os
 region = os.environ['ACCOUNT_REGION']
 key = os.environ['ACCOUNT_KEY']
@@ -12,23 +15,20 @@ client = ComputerVisionClient(
     credentials=credentials
 )
 
-'''
-Detect Brands - remote
-This example detects common brands like logos and puts a bounding box around them.
-'''
-print("===== Detect Brands - remote =====")
-# Get a URL with a brand logo
-remote_image_url = "https://docs.microsoft.com/en-us/azure/cognitive-services/computer-vision/images/gray-shirt-logo.jpg"
-# Select the visual feature(s) you want
-remote_image_features = ["brands"]
-# Call API with URL and features
-detect_brands_results_remote = client.analyze_image(remote_image_url, remote_image_features)
+image_path = "../bin/microsoft_hoodie.jpg"
+endpoint = "https://" + region + ".api.cognitive.microsoft.com/"
+analyze_url = endpoint + "vision/v3.1/analyze"
 
-print("Detecting brands in remote image: ")
-if len(detect_brands_results_remote.brands) == 0:
-    print("No brands detected.")
-else:
-    for brand in detect_brands_results_remote.brands:
-        print("'{}' brand detected with confidence {:.1f}% at location {}, {}, {}, {}".format( \
-        brand.name, brand.confidence * 100, brand.rectangle.x, brand.rectangle.x + brand.rectangle.w, \
-        brand.rectangle.y, brand.rectangle.y + brand.rectangle.h))
+# Read the image into a byte array
+image_data = open(image_path, "rb").read()
+headers = {'Ocp-Apim-Subscription-Key': key,
+           'Content-Type': 'application/octet-stream'}
+params = {'visualFeatures': 'brands'}
+response = requests.post(
+    analyze_url, headers=headers, params=params, data=image_data)
+response.raise_for_status()
+
+# The 'analysis' object contains various fields that describe the image. The most
+# relevant caption for the image is obtained from the 'description' property.
+analysis = response.json()
+print(analysis)

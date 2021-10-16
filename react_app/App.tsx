@@ -16,6 +16,7 @@ import PermissionsPage from './PermissionsActivity';
 import { BottomNavigation, Text } from 'react-native-paper';
 import { Camera, CameraPermissionStatus } from 'react-native-vision-camera';
 
+<<<<<<< HEAD
 const HistoryActivity = () => {
   return (
     <Text>History</Text>
@@ -45,6 +46,12 @@ const NavigationBar = () => {
     import: ImportActivity,
   });
 
+=======
+const Section: React.FC<{
+  title: string;
+}> = ({children, title}) => {
+  const isDarkMode = useColorScheme() === 'dark';
+>>>>>>> parent of 89de518 (added support for react-native-paper and vector icons)
   return (
     <BottomNavigation
       navigationState={{ index, routes }}
@@ -69,9 +76,39 @@ const App = () => {
   const showPermissionsPage = cameraPermission !== 'authorized';
   const navBar = <NavigationBar></NavigationBar>;
   return (
+<<<<<<< HEAD
     <PaperProvider>
       {showPermissionsPage ? navBar : <PermissionsPage></PermissionsPage>}
     </PaperProvider>
+=======
+    <SafeAreaView style={backgroundStyle}>
+      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        style={backgroundStyle}>
+        <Header />
+        <View
+          style={{
+            backgroundColor: isDarkMode ? Colors.black : Colors.white,
+          }}>
+          <Section title="Step One">
+            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
+            screen and then come back to see your edits.
+          </Section>
+          <Section title="See Your Changes">
+            <ReloadInstructions />
+          </Section>
+          <Section title="Debug">
+            <DebugInstructions />
+          </Section>
+          <Section title="Learn More">
+            Read the docs to discover what to do next:
+          </Section>
+          <LearnMoreLinks />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+>>>>>>> parent of 89de518 (added support for react-native-paper and vector icons)
   );
 };
 

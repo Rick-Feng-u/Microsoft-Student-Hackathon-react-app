@@ -1,7 +1,9 @@
 import React from 'react';
-
+import { Asset } from 'react-native-image-picker';
+import { Image } from 'react-native';
 import { BottomNavigation, Text } from 'react-native-paper';
 import ImportActivity from './ImportActivity';
+import CameraActivity from './CameraActivity';
 
 let globalImageData = ""; // this is a bad idea!
 
@@ -12,8 +14,27 @@ const HistoryRoute = () => {
 };
 
 const CameraRoute = () => {
+
+    const [data, setData] = React.useState('');
+
+    const changeImageData = (abc: Asset) => {
+        if (abc.base64 !== undefined) {
+            globalImageData = abc.base64;
+            if (abc.uri !== undefined) {
+                setData(abc.uri.toString());
+                console.log(`URI: ${data}`);
+            }
+        }
+    }
+
     return (
-        <Text>Camera</Text>
+        <>
+            <CameraActivity
+                imageDataCallback={changeImageData}
+            ></CameraActivity>
+            <Text>{data}</Text>
+            {data !== '' ? <Image source={{ uri: data }} /> : <></>}
+        </>
     );
 };
 
@@ -21,14 +42,14 @@ const ImportRoute = () => {
 
     const [data, setData] = React.useState('');
 
-    React.useEffect(() => {
-
-    }, [globalImageData]);
-
-    const changeImageData = (abc: string) => {
-        console.log("calling from callback!");
-        globalImageData = abc;
-        console.log(abc.length);
+    const changeImageData = (abc: Asset) => {
+        if (abc.base64 !== undefined) {
+            globalImageData = abc.base64;
+            if (abc.uri !== undefined) {
+                setData(abc.uri.toString());
+                console.log(`URI: ${data}`);
+            }
+        }
     }
 
     return (
@@ -36,7 +57,8 @@ const ImportRoute = () => {
             <ImportActivity
                 imageDataCallback={changeImageData}
             ></ImportActivity>
-            <Text>{globalImageData}</Text>
+            <Text>{data}</Text>
+            {data !== '' ? <Image source={{ uri: data }} /> : <></>}
         </>
     );
 };

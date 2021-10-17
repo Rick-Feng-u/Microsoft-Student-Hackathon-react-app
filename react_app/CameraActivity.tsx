@@ -5,15 +5,15 @@ import { Button } from 'react-native-paper';
 import { ImagePickerResponse, CameraOptions, ErrorCode, Asset, launchCamera, ImageLibraryOptions, launchImageLibrary } from 'react-native-image-picker';
 
 
-const ImportActivity = (
+const CameraActivity = (
     props: { imageDataCallback: (imageData: Asset) => void }
 ) => {
     const [filePath, setFilePath] = React.useState({});
 
-    let options: ImageLibraryOptions = {
+    let options: CameraOptions = {
         mediaType: 'photo',
+        cameraType: 'back',
         includeBase64: true,
-        selectionLimit: 1
     };
 
     let image: Asset;
@@ -28,13 +28,13 @@ const ImportActivity = (
     }
 
     const takePicture = () => {
-        launchImageLibrary(options, parseResponse);
+        launchCamera(options, parseResponse);
     }
 
-    return (<Button style={{ margin: 25 }} icon="cloud-upload" mode="contained" onPress={takePicture}>
-        Choose image
+    return (<Button style={{ margin: 25 }} icon="camera" mode="contained" onPress={takePicture}>
+        Launch camera
     </Button>);
 
 };
 
-export default ImportActivity;
+export default CameraActivity;

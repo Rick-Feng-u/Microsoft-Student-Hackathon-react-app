@@ -1,11 +1,15 @@
 import React from 'react';
 import { Asset } from 'react-native-image-picker';
-import { Image } from 'react-native';
+import { Image, View } from 'react-native';
 import { BottomNavigation, Text } from 'react-native-paper';
 import ImportActivity from './ImportActivity';
 import CameraActivity from './CameraActivity';
 
 let globalImageData = ""; // this is a bad idea!
+
+const Centered = (props: any) => {
+    return (<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>{props.children}</View>);
+}
 
 const HistoryRoute = () => {
     return (
@@ -28,13 +32,11 @@ const CameraRoute = () => {
     }
 
     return (
-        <>
+        <Centered>
             <CameraActivity
                 imageDataCallback={changeImageData}
             ></CameraActivity>
-            <Text>{data}</Text>
-            {data !== '' ? <Image source={{ uri: data }} /> : <></>}
-        </>
+        </Centered>
     );
 };
 
@@ -53,13 +55,11 @@ const ImportRoute = () => {
     }
 
     return (
-        <>
+        <Centered>
             <ImportActivity
                 imageDataCallback={changeImageData}
             ></ImportActivity>
-            <Text>{data}</Text>
-            {data !== '' ? <Image source={{ uri: data }} /> : <></>}
-        </>
+        </Centered>
     );
 };
 
@@ -86,6 +86,7 @@ export const NavigationBar = () => {
 
     return (
         <BottomNavigation
+            style={{ backgroundColor: 'darkblue' }}
             navigationState={{ index, routes }}
             onIndexChange={setIndex}
             renderScene={renderScene}

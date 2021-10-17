@@ -71,6 +71,7 @@ const App = () => {
       });
   }, []);
 
+  /*
   const brand_name = posts.brand_name;
   const ethical_rating = posts.ethical_rating;
   const logo = posts.logo;
@@ -80,7 +81,7 @@ const App = () => {
   const site_name = posts.site_ratings[0].site_name;
   const site_rateing = posts.site_ratings[0].site_rating;
   const sources_name = posts.sources[0].name;
-  const sources_url = posts.sources[0].url;
+  const sources_url = posts.sources[0].url;*/
 
   return (
     <>

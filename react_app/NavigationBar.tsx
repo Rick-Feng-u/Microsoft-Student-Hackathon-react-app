@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { BottomNavigation, Text } from 'react-native-paper';
+import ImportActivity from './ImportActivity';
 
 const HistoryRoute = () => {
     return (
@@ -16,7 +17,7 @@ const CameraRoute = () => {
 
 const ImportRoute = () => {
     return (
-        <Text>Camera</Text>
+        <ImportActivity></ImportActivity>
     );
 };
 

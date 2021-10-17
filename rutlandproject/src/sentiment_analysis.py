@@ -17,7 +17,7 @@ def authenticate_client():
 def extract_sentiment(strings):
     long_string = ""
     for string in strings:
-        long_string = long_string + string
+        long_string = long_string + " " + string
     client = authenticate_client()
     response = client.analyze_sentiment(documents=[long_string])[0]
     print(response)

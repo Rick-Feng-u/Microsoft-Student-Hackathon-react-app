@@ -1,20 +1,20 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Asset } from 'react-native-image-picker';
-import { Image, View } from 'react-native';
+import { View } from 'react-native';
 import { BottomNavigation, Text } from 'react-native-paper';
 import ImportActivity from './ImportActivity';
 import CameraActivity from './CameraActivity';
+import History, { HistoryData, getDateTime } from './HistoryActivity';
 
 let globalImageData = ""; // this is a bad idea!
+let historyLog = new Array<HistoryData>();
 
 const Centered = (props: any) => {
     return (<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>{props.children}</View>);
 }
 
-const HistoryRoute = () => {
-    return (
-        <Text>History</Text>
-    );
+export class HistoryRoute extends React.Component {
+
 };
 
 const CameraRoute = () => {
@@ -50,6 +50,7 @@ const ImportRoute = () => {
             if (abc.uri !== undefined) {
                 setData(abc.uri.toString());
                 console.log(`URI: ${data}`);
+                historyLog.push({ uri: data, date: getDateTime() });
             }
         }
     }
@@ -66,11 +67,6 @@ const ImportRoute = () => {
 
 export const NavigationBar = () => {
     const [index, setIndex] = React.useState(1);
-    const [imageData, setImageData] = React.useState("");
-
-    const changeThisData = (abc: string) => {
-        setImageData(abc);
-    };
 
     const [routes] = React.useState([
         { key: 'history', title: 'History', icon: 'book-open-variant' },
@@ -90,6 +86,7 @@ export const NavigationBar = () => {
             navigationState={{ index, routes }}
             onIndexChange={setIndex}
             renderScene={renderScene}
+
         />
     );
 };

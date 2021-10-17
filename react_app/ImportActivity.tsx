@@ -1,36 +1,40 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Text } from 'react-native-paper';
-import { launchCamera, launchImageLibrary, CameraOptions } from 'react-native-image-picker';
+import { Button } from 'react-native-paper';
+import { ImagePickerResponse, CameraOptions, ErrorCode, Asset, launchCamera } from 'react-native-image-picker';
 
 
-const ImportActivity = () => {
-    const parseImg = (response: any) => {
-        let didCancel = response.didCancel;
-        let errorCode = response.errorCode;
-        let errorMessage = response.errorMessage;
-        let assets = response.assets;
+const ImportActivity = (
+    props: { imageDataCallback: (imageData: string) => void }
+) => {
+    const [filePath, setFilePath] = React.useState({});
 
-        return (
-            <Text>{didCancel}</Text>
-        );
-    };
-    const getImg = () => {
-
-        let options: CameraOptions = {
-            mediaType: 'photo',
-            cameraType: 'back',
-            saveToPhotos: false
-        };
-
-        launchCamera(options, parseImg);
+    let options: CameraOptions = {
+        mediaType: 'photo',
+        cameraType: 'back',
+        includeBase64: true
     };
 
-    return (
-        <View>
-            {getImg()}
-        </View>
-    );
+    let image: Asset;
+
+    let res: ImagePickerResponse;
+
+    const parseResponse = (resp: ImagePickerResponse) => {
+        res = resp;
+        //console.log('hello');
+        //console.log(resp);
+        props.imageDataCallback((resp.assets as Asset[])[0].base64 as string);
+    }
+
+    const takePicture = () => {
+        launchCamera(options, parseResponse);
+    }
+
+    return (<Button icon="camera" mode="contained" onPress={takePicture}>
+        Press me
+    </Button>);
+
 };
 
 export default ImportActivity;

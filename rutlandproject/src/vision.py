@@ -3,11 +3,13 @@ from azure.cognitiveservices.vision.computervision.models import VisualFeatureTy
 from msrest.authentication import CognitiveServicesCredentials
 from dotenv import load_dotenv
 import requests
+from bing import bing_search
+from sentiment_analysis import extract_sentiment
 
 load_dotenv()  # take environment variables from .env.
 import os
 region = os.environ['ACCOUNT_REGION']
-key = os.environ['ACCOUNT_KEY']
+key = os.environ['VISION_KEY']
 
 credentials = CognitiveServicesCredentials(key)
 client = ComputerVisionClient(
@@ -15,7 +17,7 @@ client = ComputerVisionClient(
     credentials=credentials
 )
 
-image_path = "../bin/microsoft_hoodie.jpg"
+image_path = "../bin/crest.png"
 endpoint = "https://" + region + ".api.cognitive.microsoft.com/"
 analyze_url = endpoint + "vision/v3.1/analyze"
 
@@ -31,4 +33,10 @@ response.raise_for_status()
 # The 'analysis' object contains various fields that describe the image. The most
 # relevant caption for the image is obtained from the 'description' property.
 analysis = response.json()
-print(analysis)
+try:
+    print("Running search on ",analysis["brands"][0]["name"])
+    headlines = bing_search(analysis["brands"][0]["name"])
+    extract_sentiment(headlines)
+
+except e:
+    print(e)

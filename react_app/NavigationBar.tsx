@@ -1,21 +1,35 @@
 import React, { Component } from 'react';
 import { Asset } from 'react-native-image-picker';
 import { View } from 'react-native';
-import { BottomNavigation, Text } from 'react-native-paper';
+import { BottomNavigation, Button } from 'react-native-paper';
 import ImportActivity from './ImportActivity';
 import CameraActivity from './CameraActivity';
 import History, { HistoryData, getDateTime } from './HistoryActivity';
 
 let globalImageData = ""; // this is a bad idea!
-let historyLog = new Array<HistoryData>();
+let history: Array<HistoryData> = new Array<HistoryData>();
+
+
 
 const Centered = (props: any) => {
     return (<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>{props.children}</View>);
 }
 
-export class HistoryRoute extends React.Component {
+const HistoryRoute = (props: any) => {
+    const [log, setLog] = React.useState(new Array<HistoryData>());
 
+    const updateHistory = () => {
+        setLog(history);
+    }
+
+    return (
+        <>
+            <History items={log}></History>
+            <Button style={{ margin: 25 }} icon="refresh" mode="contained" onPress={updateHistory}>Refresh history</Button>
+        </>
+    );
 };
+
 
 const CameraRoute = () => {
 
@@ -27,6 +41,7 @@ const CameraRoute = () => {
             if (abc.uri !== undefined) {
                 setData(abc.uri.toString());
                 console.log(`URI: ${data}`);
+                history.push({ uri: data, date: getDateTime() });
             }
         }
     }
@@ -50,7 +65,7 @@ const ImportRoute = () => {
             if (abc.uri !== undefined) {
                 setData(abc.uri.toString());
                 console.log(`URI: ${data}`);
-                historyLog.push({ uri: data, date: getDateTime() });
+                history.push({ uri: data, date: getDateTime() });
             }
         }
     }
@@ -84,7 +99,7 @@ export const NavigationBar = () => {
         <BottomNavigation
             style={{ backgroundColor: 'darkblue' }}
             navigationState={{ index, routes }}
-            onIndexChange={setIndex}
+            onIndexChange={(idx) => { setIndex(idx); renderScene;[routes[idx].key] }}
             renderScene={renderScene}
 
         />

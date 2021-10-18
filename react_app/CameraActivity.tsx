@@ -1,6 +1,4 @@
 import React from 'react';
-import { View } from 'react-native';
-import { Text } from 'react-native-paper';
 import { Button } from 'react-native-paper';
 import { ImagePickerResponse, CameraOptions, ErrorCode, Asset, launchCamera, ImageLibraryOptions, launchImageLibrary } from 'react-native-image-picker';
 
@@ -34,7 +32,7 @@ const CameraActivity = (
     }
 
     return (<Button style={{ margin: 25, padding: 25 }} icon="camera" mode="contained" onPress={takePicture}>
-        Launch camera
+        Open camera
     </Button>);
 
 };

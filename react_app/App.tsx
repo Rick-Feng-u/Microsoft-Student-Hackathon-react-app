@@ -3,7 +3,7 @@
 import React from 'react';
 import axios, { CancelTokenSource } from 'axios';
 import { NavigationBar } from './NavigationBar';
-import {View} from 'react-native';
+import { View } from 'react-native';
 import { BottomNavigation, Text } from 'react-native-paper';
 
 interface IPost {
@@ -13,9 +13,9 @@ interface IPost {
   overall_rating: number;
   parent_company: string;
   photo: string;
-} 
+}
 
-const defaultPosts:IPost[] = [];
+const defaultPosts: IPost[] = [];
 
 const App = () => {
   const navBar = <NavigationBar></NavigationBar>;
@@ -52,7 +52,7 @@ const App = () => {
         },
       }
       )
-      
+
       .then((response) => {
         setPosts(response.data);
         setLoading(false);
@@ -61,15 +61,17 @@ const App = () => {
         let error = axios.isCancel(ex)
           ? 'Request Cancelled'
           : ex.code === 'ECONNABORTED'
-          ? 'A timeout has occurred'
-          : ex.response.status === 404
-          ? 'Resource Not Found'
-          : 'An unexpected error has occurred';
+            ? 'A timeout has occurred'
+            : ex.response.status === 404
+              ? 'Resource Not Found'
+              : 'An unexpected error has occurred';
 
         setError(error);
         setLoading(false);
       });
   }, []);
+
+  const brand_name = 'Microsoft';
 
   /*
   const brand_name = posts.brand_name;
@@ -85,9 +87,9 @@ const App = () => {
 
   return (
     <>
-    <Text>
-      {brand_name}
-    </Text>
+      <Text>
+        {brand_name}
+      </Text>
       {navBar}
     </>
   );
